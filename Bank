@@ -81,14 +81,12 @@ int main() {
     // Show updated queue
     bank.showQueue();
     
-    // Add more customers
     bank.addCustomer("Eve");
     bank.addCustomer("Frank");
     
-    // Try to exceed capacity
+    
     bank.addCustomer("Grace"); // This should fail
     
-    // Final queue
     bank.showQueue();
     
     cout << "\nBank queue test completed!" << endl;
