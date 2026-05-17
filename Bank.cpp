@@ -1,0 +1,94 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class MiniBank {
+private:
+    string* queue;
+    int capacity;
+    int front;
+    int rear;
+    int count;
+    
+public:
+    MiniBank(int size) {
+        capacity = size;
+        queue = new string[size];
+        front = 0;
+        rear = -1;
+        count = 0;
+    }
+    
+    ~MiniBank() {
+        delete[] queue;
+    }
+    
+    bool addCustomer(string name) {
+        if(count == capacity) {
+            cout << " Queue is full!" << endl;
+            return false;
+        }
+        rear = (rear + 1) % capacity;
+        queue[rear] = name;
+        count++;
+        cout << name << " added to queue. Position: " << count << endl;
+        return true;
+    }
+    
+    void serveCustomer() {
+        if(count == 0) {
+            cout << "No customers in queue!" << endl;
+            return;
+        }
+        cout << "Serving: " << queue[front] << endl;
+        front = (front + 1) % capacity;
+        count--;
+        cout << " Customer served! Remaining: " << count << endl;
+    }
+    
+    void showQueue() {
+        if(count == 0) {
+            cout << "Queue is empty" << endl;
+            return;
+        }
+        cout << "\nCurrent Queue (" << count << " customers):" << endl;
+        for(int i = 0; i < count; i++) {
+            int index = (front + i) % capacity;
+            cout << "   " << i + 1 << ". " << queue[index] << endl;
+        }
+    }
+};
+
+int main() {
+    cout << "\n === MINI BANK QUEUE TEST ===" << endl;
+    
+    MiniBank bank(5);
+    
+    // Test adding customers
+    bank.addCustomer("Alice");
+    bank.addCustomer("Bob");
+    bank.addCustomer("Charlie");
+    bank.addCustomer("Diana");
+    
+    // Show queue
+    bank.showQueue();
+    
+    // Serve customers
+    cout << "\n--- Serving Customers ---" << endl;
+    bank.serveCustomer();
+    bank.serveCustomer();
+    
+    // Show updated queue
+    bank.showQueue();
+    
+    bank.addCustomer("Eve");
+    bank.addCustomer("Frank");
+    
+    
+    bank.addCustomer("Grace"); // This should fail
+    
+    bank.showQueue();
+    
+    cout << "\nBank queue test completed!" << endl;
+    return 0;
+}
